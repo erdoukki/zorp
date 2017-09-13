@@ -7,10 +7,10 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libzorp.pc libzorpproxy.pc
 
 
-pkgdatadir=@datadir@/zorp
+pkgdatadir=${ZORP_DATADIR}
 pkgdata_DATA = moduledist.conf
 
-EXTRA_DIST = autogen.sh dist.conf BUGS WHATIS.TXT VERSION ${pkgconfig_DATA} ${pkgdata_DATA}
+EXTRA_DIST = dist.conf BUGS WHATIS.TXT VERSION ${pkgconfig_DATA} ${pkgdata_DATA}
 
 COPYING: COPYING.in@PACKAGE_SUFFIX@
 	cp $< $@

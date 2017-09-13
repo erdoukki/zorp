@@ -1,6 +1,7 @@
 /***************************************************************************
  *
  * Copyright (c) 2000-2015 BalaBit IT Ltd, Budapest, Hungary
+ * Copyright (c) 2015-2017 BalaSys IT Ltd, Budapest, Hungary
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,8 +23,8 @@
 #include "http.h"
 #include "httpfltr.h"
 
-#include <zorp/log.h>
-#include <zorp/io.h>
+#include <zorpll/log.h>
+#include <zorpll/io.h>
 #include <sys/socket.h>
 #include <netinet/tcp.h>
 
@@ -660,16 +661,20 @@ http_transfer_dst_shutdown(ZTransfer2 *s, ZStream *stream, GError **err)
   GError *local_error = NULL;
   gsize bw;
   gboolean delay_transfer;
+  gboolean stack_error_or_reject;
+  gboolean has_data_part;
 
   /* delay preamble and closing chunk if we want to write an error page, we can do this if:
    *
    * - we are not suppressing data entity (e.g. HEAD)
    * - we are expecting data (e.g. response) or the request contains data (e.g. POST)
+   * - we are using MIME stacking
    */
-  delay_transfer = (self->dst_write_state == HTTP_DW_INITIAL &&
-                    (!!(s->status & (ZT2S_FAILED + ZT2S_ABORTED)) || (self->super.stack_decision != ZV_ACCEPT))) &&
-    !self->suppress_data &&
-    (self->expect_data || self->content_length != HTTP_LENGTH_NONE);
+  stack_error_or_reject = !!(s->status & (ZT2S_FAILED + ZT2S_ABORTED)) || (self->super.stack_decision != ZV_ACCEPT);
+  has_data_part = self->expect_data || self->content_length != HTTP_LENGTH_NONE;
+
+  delay_transfer = (self->dst_write_state == HTTP_DW_INITIAL && stack_error_or_reject) &&
+                   !self->suppress_data && (has_data_part || self->stack_type == HTTP_STK_MIME);
 
   if (!delay_transfer)
     {
@@ -744,6 +749,7 @@ http_transfer_stack_proxy(ZTransfer2 *s, ZStackedProxy **stacked)
       goto unref_unlock;
     }
 
+  self->stack_type = stack_type;
   if (stack_type < HTTP_STK_NONE || stack_type > HTTP_STK_MIME)
     {
       /*LOG
@@ -1083,6 +1089,7 @@ http_transfer_new(HttpProxy *owner,
   self->format_preamble_func = format_preamble;
   self->preamble = g_string_sized_new(0);
   self->stacked_preamble = g_string_sized_new(0);
+  self->stack_type = HTTP_STK_NONE;
   self->force_nonpersistent_mode = FALSE;
   self->expect_data = expect_data;
   self->suppress_data = suppress_data;

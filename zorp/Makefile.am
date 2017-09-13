@@ -1,9 +1,9 @@
-pkglibdir=$(libdir)/zorp
-pkglibexecdir=$(libdir)/zorp
-LIBS=@ZORP_LIBS@
+AM_CXXFLAGS=@ZORP_CXXFLAGS@
+AM_LDFLAGS=@ZORP_LIBS@
 
 
-pkglibexec_PROGRAMS = zorp
+sysconfdir = ${ZORP_SYSCONFDIR}
+sbin_PROGRAMS = zorp
 
 zorp_SOURCES = main.cc
 
@@ -12,15 +12,15 @@ sysconf_DATA = policy.py.http.sample policy.py.https.sample policy.py.ssh.sample
 EXTRA_DIST = $(sysconf_DATA) logtags.txt logtags_gperf.c logtags_gperf.h logtags.gperf
 
 install-exec-local:
-	mkdir -p $(DESTDIR)/$(sysconfdir)
-	mkdir -p $(DESTDIR)/$(sysconfdir)/urlfilter
-	chmod 0700 $(DESTDIR)/$(sysconfdir)
-	mkdir -p $(DESTDIR)/$(pidfiledir)
-	mkdir -p $(DESTDIR)/$(localstatedir)/quarantine
-	mkdir -p $(DESTDIR)/$(localstatedir)/tmp
-	mkdir -p $(DESTDIR)/$(localstatedir)/audit
-	mkdir -p $(DESTDIR)/$(localstatedir)/urlfilter
-	mkdir -p $(DESTDIR)/$(localstatedir)/cores
+	$(MKDIR_P) $(DESTDIR)/${ZORP_SYSCONFDIR}
+	$(MKDIR_P) $(DESTDIR)/${ZORP_SYSCONFDIR}/urlfilter
+	chmod 0700 $(DESTDIR)/${ZORP_SYSCONFDIR}
+	$(MKDIR_P) $(DESTDIR)/${ZORP_PIDFILEDIR}
+	$(MKDIR_P) $(DESTDIR)/${ZORP_STATEDIR}/quarantine
+	$(MKDIR_P) $(DESTDIR)/${ZORP_STATEDIR}/tmp
+	$(MKDIR_P) $(DESTDIR)/${ZORP_STATEDIR}/audit
+	$(MKDIR_P) $(DESTDIR)/${ZORP_STATEDIR}/urlfilter
+	$(MKDIR_P) $(DESTDIR)/${ZORP_STATEDIR}/cores
 
 main.c: logtags_gperf.c
 

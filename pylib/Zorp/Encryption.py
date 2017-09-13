@@ -1,6 +1,7 @@
 ############################################################################
 ##
 ## Copyright (c) 2000-2015 BalaBit IT Ltd, Budapest, Hungary
+## Copyright (c) 2015-2017 BalaSys IT Ltd, Budapest, Hungary
 ##
 ##
 ## This program is free software; you can redistribute it and/or modify
@@ -296,6 +297,7 @@
 import Globals
 from Keybridge import X509KeyBridge
 from Zorp import log, CORE_POLICY, CORE_DEBUG, CORE_ERROR, FALSE, TRUE
+from Config import config
 from Encryption_ import Encryption
 
 import re, os
@@ -675,7 +677,7 @@ class SSLOptions(object):
         """
         if method == SSL_METHOD_SSLV23:
             self.method = ENCRYPTION_METHOD_SSLV23
-        elif method == SSL_METHOD_SSLV3:
+        elif method == SSL_METHOD_SSLV3 and config.options.ssl3_enabled:
             self.method = ENCRYPTION_METHOD_SSLV3
         elif method == SSL_METHOD_TLSV1:
             self.method = ENCRYPTION_METHOD_TLSV1

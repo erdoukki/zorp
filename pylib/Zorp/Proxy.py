@@ -1,6 +1,7 @@
 ############################################################################
 ##
 ## Copyright (c) 2000-2015 BalaBit IT Ltd, Budapest, Hungary
+## Copyright (c) 2015-2017 BalaSys IT Ltd, Budapest, Hungary
 ##
 ##
 ## This program is free software; you can redistribute it and/or modify
@@ -48,7 +49,7 @@ from Exceptions import *
 from Detector import *
 from LegacyEncryption import *
 
-import string, os, sys, traceback, re, types
+import string, os, sys, traceback, re, types, inspect
 
 def proxyLog(self, type, level, msg, args=None):
     """
@@ -1765,7 +1766,7 @@ class Proxy(BuiltinProxy):
           </metainfo>
         </method>
         """
-        self.session.auth_user = entity
+        self.session.getMasterSession().auth_user = entity
         self.session.auth_info = auth_info
         ## LOG ##
         # This message reports that the user authentication was successful.
@@ -1797,3 +1798,8 @@ class Proxy(BuiltinProxy):
 
 
 
+    def _hasMethod(self, obj, name):
+        v = vars(obj.__class__)
+        # check if name is defined directly in instance's class and
+        # not in one of its ancestors and that name is a method
+        return name in v and inspect.isroutine(v[name])

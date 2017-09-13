@@ -1,25 +1,6 @@
-############################################################################
-##
-## Copyright (c) 2000-2015 BalaBit IT Ltd, Budapest, Hungary
-##
-##
-## This program is free software; you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 2 of the License, or
-## (at your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You should have received a copy of the GNU General Public License along
-## with this program; if not, write to the Free Software Foundation, Inc.,
-## 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-##
-############################################################################
-
 from Encryption import *
+from Config import config
+
 import types
 
 class LegacyEncryption(object):
@@ -87,7 +68,7 @@ class LegacyEncryption(object):
         if hasattr(self, "client_ssl_method"):
             if self.client_ssl_method == SSL_METHOD_SSLV23:
                 client_method = ENCRYPTION_METHOD_SSLV23
-            elif self.client_ssl_method == SSL_METHOD_SSLV3:
+            elif self.client_ssl_method == SSL_METHOD_SSLV3 and config.options.ssl3_enabled:
                 client_method = ENCRYPTION_METHOD_SSLV3
             elif self.client_ssl_method == SSL_METHOD_TLSV1:
                 client_method = ENCRYPTION_METHOD_TLSV1
@@ -99,7 +80,7 @@ class LegacyEncryption(object):
         if hasattr(self, "server_ssl_method"):
             if self.server_ssl_method == SSL_METHOD_SSLV23:
                 server_method = ENCRYPTION_METHOD_SSLV23
-            elif self.server_ssl_method == SSL_METHOD_SSLV3:
+            elif self.server_ssl_method == SSL_METHOD_SSLV3 and config.options.ssl3_enabled:
                 server_method = ENCRYPTION_METHOD_SSLV3
             elif self.server_ssl_method == SSL_METHOD_TLSV1:
                 server_method = ENCRYPTION_METHOD_TLSV1

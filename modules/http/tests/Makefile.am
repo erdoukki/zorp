@@ -1,9 +1,7 @@
-LIBS=@MODULETESTS_LIBS@
-CPPFLAGS = @MODULES_CPPFLAGS@ -DBOOST_TEST_DYN_LINK=1
+AM_LDFLAGS=@MODULETESTS_LIBS@ ../httpmisc.lo -lboost_unit_test_framework
+AM_CXXFLAGS = @MODULES_CXXFLAGS@ -DBOOST_TEST_DYN_LINK=1
 
 check_PROGRAMS = http_parse_url http_canon_url
-
-LDADD = ../httpmisc.lo -lboost_unit_test_framework
 
 http_parse_url_SOURCES = http_parse_url.cc
 

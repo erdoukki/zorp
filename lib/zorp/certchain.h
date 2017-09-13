@@ -1,6 +1,7 @@
 /***************************************************************************
  *
  * Copyright (c) 2000-2015 BalaBit IT Ltd, Budapest, Hungary
+ * Copyright (c) 2015-2017 BalaSys IT Ltd, Budapest, Hungary
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +24,7 @@
 #define ZORP_CERTCHAIN_H_INCLUDED
 
 #include <openssl/x509.h>
-#include <zorp/zobject.h>
+#include <zorpll/zobject.h>
 
 typedef struct _ZCertificateChain
 {

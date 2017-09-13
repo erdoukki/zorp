@@ -1,6 +1,7 @@
 /***************************************************************************
  *
  * Copyright (c) 2000-2015 BalaBit IT Ltd, Budapest, Hungary
+ * Copyright (c) 2015-2017 BalaSys IT Ltd, Budapest, Hungary
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,14 +24,14 @@
 #include <zorp/proxy.h>
 #include <zorp/pyx509chain.h>
 #include <zorp/pyx509.h>
-#include <zorp/streamssl.h>
+#include <zorpll/streamssl.h>
 #include <zorp/pydict.h>
 #include <zorp/pystruct.h>
 #include <zorp/pysockaddr.h>
 #include <zorp/proxysslhostiface.h>
 #include <zorp/proxygroup.h>
-#include <zorp/source.h>
-#include <zorp/error.h>
+#include <zorpll/source.h>
+#include <zorpll/error.h>
 #include <openssl/err.h>
 #include <memory>
 
@@ -650,6 +651,20 @@ z_proxy_ssl_verify_cb_allow_missing_crl(int ok, X509_STORE_CTX *ctx)
   return ok;
 }
 
+/*
+ * These are the verify_errors we use as untrusted errors.
+ */
+bool
+z_proxy_ssl_verify_error_is_untrusted(int verify_error)
+{
+  return (verify_error == X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT ||
+          verify_error == X509_V_ERR_SELF_SIGNED_CERT_IN_CHAIN ||
+          verify_error == X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT_LOCALLY ||
+          verify_error == X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT ||
+          verify_error == X509_V_ERR_CERT_UNTRUSTED ||
+          verify_error == X509_V_ERR_UNABLE_TO_VERIFY_LEAF_SIGNATURE);
+}
+
 /* this function is called to verify the whole chain as provided by
    the peer. The SSL lib takes care about setting up the context,
    we only need to call X509_verify_cert. */
@@ -746,19 +761,22 @@ z_proxy_ssl_app_verify_cb(X509_STORE_CTX *ctx, void *user_data G_GNUC_UNUSED)
 
         case ENCRYPTION_VERIFY_REQUIRED_UNTRUSTED:
         case ENCRYPTION_VERIFY_OPTIONAL_UNTRUSTED:
-          if (!verify_valid &&
-              (self->encryption->ssl_opts.permit_invalid_certificates[side] ||
-               (verify_error == X509_V_ERR_DEPTH_ZERO_SELF_SIGNED_CERT ||
-                verify_error == X509_V_ERR_SELF_SIGNED_CERT_IN_CHAIN ||
-                verify_error == X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT_LOCALLY ||
-                verify_error == X509_V_ERR_UNABLE_TO_GET_ISSUER_CERT ||
-                verify_error == X509_V_ERR_CERT_UNTRUSTED ||
-                verify_error == X509_V_ERR_UNABLE_TO_VERIFY_LEAF_SIGNATURE)))
+          if (!verify_valid)
             {
-              z_proxy_log(self, CORE_POLICY, 3,
-                          "Accepting untrusted certificate as directed by the policy; verify_error='%s'",
-                          X509_verify_cert_error_string(verify_error));
-              ok = 1;
+              if (self->encryption->ssl_opts.permit_invalid_certificates[side])
+                {
+                  z_proxy_log(self, CORE_POLICY, 3,
+                              "Accepting invalid certificate as directed by the policy; verify_error='%s'",
+                              X509_verify_cert_error_string(verify_error));
+                  ok = 1;
+                }
+              else if (z_proxy_ssl_verify_error_is_untrusted(verify_error))
+                {
+                  z_proxy_log(self, CORE_POLICY, 3,
+                              "Accepting untrusted certificate as directed by the policy; verify_error='%s'",
+                              X509_verify_cert_error_string(verify_error));
+                  ok = 1;
+                }
             }
           else
             {

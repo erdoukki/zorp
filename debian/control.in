@@ -1,0 +1,151 @@
+Source: zorp
+Section: net
+Priority: optional
+Maintainer: BalaBit Development Team <devel@balabit.hu>
+Standards-Version: 3.9.0
+Build-Depends: libpython@PYTHON_MIN_VERSION@-dev, libssl1.0-dev (>=@OPENSSL_MIN_VERSION@) | libssl-dev (<<@OPENSSL_MAX_VERSION@), libglib2.0-dev (>= @GLIB_MIN_VERSION@), libzorpll@LIBZORP_LT_RELEASE@-dev (>=@ZORPLL_MIN_VERSION@), gperf, debhelper (>= 9), dh-autoreconf, python-dnspython, python-radix, autoconf, autoconf-archive, automake, libtool, libboost-test-dev, python-openssl, python-netaddr, xsltproc, docbook-xsl
+
+Package: zorp
+Section: net
+Architecture: any
+Depends: ${shlibs:Depends}, python-openssl, python-dnspython, libzorp@LIBZORP_LT_COMPAT_BRANCH@ (= ${binary:Version}), python-zorp-base (>= ${source:Version})
+Suggests: zorp-doc, zorp-modules (= ${source:Version}), zorp-munin-plugins, zorp-nagios-plugins, iptables-kzorp-addon, iptables-zorp-addons, kzorp-dkms (>= ${source:Version}), python-kzorp (>= ${source:Version}), kzorpd, kzorp-utils
+Pre-Depends: openssl, zorp-base (= ${source:Version})
+Description: An advanced protocol analyzing firewall
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ are scriptable with the Python based configuration language.
+ .
+ Zorp has been successfully deployed in demanding environments like the
+ protection of high traffic web sites, or the protection of large intranets.
+ Since the protocol analysis is strict and many of the common exploits
+ violate the application protocol they are injected into, a large percentage
+ of the attacks do not cross a Zorp based firewall even if the given service
+ is permitted.
+
+Package: zorp-dbg
+Architecture: any
+Depends: zorp (= ${source:Version})
+Description: An advanced protocol analyzing firewall
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ are scriptable with the Python based configuration language.
+ .
+ Debug symbols.
+
+Package: libzorp@LIBZORP_LT_COMPAT_BRANCH@
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Breaks: libzorp2
+Description: The runtime library of Zorp
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ .
+ The library needed to run zorp.
+
+Package: libzorp@LIBZORP_LT_COMPAT_BRANCH@-dbg
+Section: libs
+Architecture: any
+Depends: libzorp@LIBZORP_LT_COMPAT_BRANCH@
+Description: The runtime library of Zorp
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ .
+ Debug symbols.
+
+Package: libzorp@LIBZORP_LT_RELEASE@-dev
+Section: libdevel
+Architecture: any
+Depends: libpython@PYTHON_MIN_VERSION@-dev, libzorpll@LIBZORP_LT_RELEASE@-dev, libzorp@LIBZORP_LT_COMPAT_BRANCH@ (= ${binary:Version}), ${misc:Depends}
+Conflicts: zorp-dev, libzorp0-dev
+Description: Development files needed to compile Zorp modules
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ are scriptable with the Python based configuration language.
+ .
+ These are the files you need to compile a zorp module.
+
+Package: zorp-modules
+Section: net
+Architecture: any
+Depends: ${shlibs:Depends}, ${python:Depends}, ${misc:Depends}
+Recommends: zorp (= ${binary:Version})
+Description: Default proxy modules for Zorp
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ are scriptable with the Python based configuration language.
+ .
+ This package includes proxies for the protocols: FINGER, FTP, HTTP,
+ SSL, TELNET, WHOIS, and two general modules ANYPY and PLUG.
+
+
+Package: zorp-modules-dbg
+Architecture: any
+Depends: zorp-modules (= ${source:Version})
+Description: Default proxy modules for Zorp
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ are scriptable with the Python based configuration language.
+ .
+ This package includes debug symbol of proxies.
+
+Package: zorp-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}
+Description: Zorp documentation
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ .
+ Zorp documentation and examples.
+
+Package: python-zorp-base
+Architecture: all
+Section: python
+Depends: ${python:Depends}, ${misc:Depends}, python-radix, python-dnspython, python-netaddr
+Description: Python bindings for kzorp.
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ .
+ Common python files for Zorp and kZorp.
+
+Package: zorp-base
+Architecture: all
+Description: Base files for zorp
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ .
+ Common files for Zorp and kZorp.
+
+Package: zorp-munin-plugins
+Architecture: any
+Depends: munin-node, zorp
+Description: An advanced protocol analyzing firewall
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ are scriptable with the Python based configuration language.
+ .
+ This package contains plugins for the Munin monitoring tool.
+
+Package: zorp-nagios-plugins
+Architecture: any
+Suggests: zorp, nagios-nrpe-server, zms-transfer-agent-dynamic
+Description: An advanced protocol analyzing firewall
+ Zorp is a new generation firewall. It is essentially a transparent proxy
+ firewall, with strict protocol analyzing proxies, a modular architecture,
+ and fine-grained control over the mediated traffic. Configuration decisions
+ are scriptable with the Python based configuration language.
+ .
+ This package contains plugins for the Nagios monitoring tool.

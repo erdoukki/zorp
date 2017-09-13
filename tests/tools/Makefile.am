@@ -1,5 +1,5 @@
-pkglibdir=$(libdir)/zorp/tests
-pkglibexecdir=$(libdir)/zorp/tests
+pkglibdir=${ZORP_LIBDIR}/tests
+pkglibexecdir=${ZORP_LIBDIR}/tests
 
 pkglibexec_PROGRAMS = tos_receive udp_accept udp6_accept
 

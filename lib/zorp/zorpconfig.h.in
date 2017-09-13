@@ -3,9 +3,6 @@
 /* Zorp brochure version */
 #undef BROCHURE_VERSION
 
-/* Enable debugging */
-#undef ENABLE_DEBUG
-
 /* Enable IP option processing */
 #undef ENABLE_IPOPTIONS
 
@@ -17,6 +14,9 @@
 
 /* Enable prefork support */
 #undef ENABLE_PREFORK
+
+/* Enable SSLv3 support */
+#undef ENABLE_SSLV3
 
 /* Enable trace messages */
 #undef ENABLE_TRACE
@@ -47,6 +47,10 @@
    you don't. */
 #undef HAVE_DECL_IP_TRANSPARENT
 
+/* Define to 1 if you have the declaration of `OPENSSL_NO_SSL3', and to 0 if
+   you don't. */
+#undef HAVE_DECL_OPENSSL_NO_SSL3
+
 /* Define to 1 if you have the declaration of `TCP_CORK', and to 0 if you
    don't. */
 #undef HAVE_DECL_TCP_CORK
@@ -66,6 +70,9 @@
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `ssl' library (-lssl). */
+#undef HAVE_LIBSSL
 
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
@@ -142,6 +149,9 @@
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
 
+/* Name of package */
+#undef PACKAGE
+
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT
 
@@ -175,29 +185,8 @@
 /* Configuration date */
 #undef ZORP_CONFIG_DATE
 
-/* datadir */
-#undef ZORP_DATADIR
-
-/* libdir */
-#undef ZORP_LIBDIR
-
-/* Required license version */
-#undef ZORP_LICENSE_VERSION
-
-/* pidfiledir */
-#undef ZORP_PIDFILEDIR
-
 /* Required product name in license */
 #undef ZORP_PRODUCT_NAME
-
-/* Zorp source revision number */
-#undef ZORP_SOURCE_REVISION
-
-/* localstatedir */
-#undef ZORP_STATEDIR
-
-/* sysconfdir */
-#undef ZORP_SYSCONFDIR
 
 /* Enable large inode numbers on Mac OS X 10.5.  */
 #ifndef _DARWIN_USE_64_BIT_INODE

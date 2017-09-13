@@ -11,4 +11,16 @@ pkgdata_DATA = Auth.py AuthDB.py Base.py Core.py Chainer.py Common.py \
 	Instance.py InstancesConf.py \
 	ResolverCache.py FileLock.py
 
-EXTRA_DIST = $(pkgdata_DATA) Http.py AnyPy.py Plug.py
+pkgdata_DATA += \
+	APR.py \
+	AnyPy.py \
+	Finger.py \
+	Ftp.py \
+	Http.py \
+	Plug.py \
+	Pop3.py \
+	Smtp.py \
+	Telnet.py \
+	Whois.py
+
+EXTRA_DIST = $(pkgdata_DATA)

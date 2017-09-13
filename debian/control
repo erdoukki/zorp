@@ -3,14 +3,14 @@ Section: net
 Priority: optional
 Maintainer: BalaBit Development Team <devel@balabit.hu>
 Standards-Version: 3.9.0
-Build-Depends: python-dev (>=2.7), libssl-dev (>=1.0.1), libglib2.0-dev (>= 2.32.0), libzorpll-dev (>=6.0.8.0), gperf, debhelper (>= 6.0.7~), python-dnspython, python-radix, autoconf, automake, libtool, libboost-test-dev, python-openssl, python-netaddr
+Build-Depends: libpython2.7-dev, libssl1.0-dev (>=1.0.1) | libssl-dev (<<@OPENSSL_MAX_VERSION@), libglib2.0-dev (>= 2.32.0), libzorpll6.0-dev (>=6.0.11.0), gperf, debhelper (>= 9), dh-autoreconf, python-dnspython, python-radix, autoconf, autoconf-archive, automake, libtool, libboost-test-dev, python-openssl, python-netaddr, xsltproc, docbook-xsl
 
 Package: zorp
 Section: net
 Architecture: any
-Depends: ${shlibs:Depends}, python-openssl, python-dnspython, libzorp6.0-10 (= ${binary:Version}), python-zorp-base (>= ${source:Version})
+Depends: ${shlibs:Depends}, python-openssl, python-dnspython, libzorp6.0-11 (= ${binary:Version}), python-zorp-base (>= ${source:Version})
 Suggests: zorp-doc, zorp-modules (= ${source:Version}), zorp-munin-plugins, zorp-nagios-plugins, iptables-kzorp-addon, iptables-zorp-addons, kzorp-dkms (>= ${source:Version}), python-kzorp (>= ${source:Version}), kzorpd, kzorp-utils
-Pre-Depends: zorp-base (= ${source:Version})
+Pre-Depends: openssl, zorp-base (= ${source:Version})
 Description: An advanced protocol analyzing firewall
  Zorp is a new generation firewall. It is essentially a transparent proxy
  firewall, with strict protocol analyzing proxies, a modular architecture,
@@ -35,7 +35,7 @@ Description: An advanced protocol analyzing firewall
  .
  Debug symbols.
 
-Package: libzorp6.0-10
+Package: libzorp6.0-11
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -47,10 +47,10 @@ Description: The runtime library of Zorp
  .
  The library needed to run zorp.
 
-Package: libzorp6.0-10-dbg
+Package: libzorp6.0-11-dbg
 Section: libs
 Architecture: any
-Depends: libzorp6.0-10
+Depends: libzorp6.0-11
 Description: The runtime library of Zorp
  Zorp is a new generation firewall. It is essentially a transparent proxy
  firewall, with strict protocol analyzing proxies, a modular architecture,
@@ -61,7 +61,7 @@ Description: The runtime library of Zorp
 Package: libzorp6.0-dev
 Section: libdevel
 Architecture: any
-Depends: python-dev (>=2.7), libzorpll-dev, libssl-dev (>=1.0.1), libzorp6.0-10 (= ${binary:Version}), ${misc:Depends}
+Depends: libpython2.7-dev, libzorpll6.0-dev, libzorp6.0-11 (= ${binary:Version}), ${misc:Depends}
 Conflicts: zorp-dev, libzorp0-dev
 Description: Development files needed to compile Zorp modules
  Zorp is a new generation firewall. It is essentially a transparent proxy
@@ -130,8 +130,7 @@ Description: Base files for zorp
 
 Package: zorp-munin-plugins
 Architecture: any
-Depends: munin-node
-Recommends: zorp
+Depends: munin-node, zorp
 Description: An advanced protocol analyzing firewall
  Zorp is a new generation firewall. It is essentially a transparent proxy
  firewall, with strict protocol analyzing proxies, a modular architecture,

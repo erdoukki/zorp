@@ -1,6 +1,7 @@
 /***************************************************************************
  *
  * Copyright (c) 2000-2015 BalaBit IT Ltd, Budapest, Hungary
+ * Copyright (c) 2015-2017 BalaSys IT Ltd, Budapest, Hungary
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +27,7 @@
  */
 
 #include <zorp/policy.h>
-#include <zorp/log.h>
+#include <zorpll/log.h>
 #include <zorp/zpython.h>
 
 /* for python initialization functions */
@@ -41,10 +42,10 @@
 #include <zorp/pyencryption.h>
 
 /* for capability management */
-#include <zorp/cap.h>
+#include <zorpll/cap.h>
 
 /* for calling on_reload functions on loaded modules */
-#include <zorp/registry.h>
+#include <zorpll/registry.h>
 
 #include <initializer_list>
 

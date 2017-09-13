@@ -1,6 +1,7 @@
 /***************************************************************************
  *
  * Copyright (c) 2000-2015 BalaBit IT Ltd, Budapest, Hungary
+ * Copyright (c) 2015-2017 BalaSys IT Ltd, Budapest, Hungary
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,10 +23,10 @@
 #define ZORP_PYENCRYPTION_H_INCLUDED
 
 #include <zorp/pystruct.h>
-#include <zorp/ssl.h>
+#include <zorpll/ssl.h>
 #include <zorp/certchain.h>
 #include <zorp/proxycommon.h>
-#include <zorp/sockaddr.h>
+#include <zorpll/sockaddr.h>
 #include <openssl/ssl.h>
 #include <chrono>
 #include <array>
@@ -53,12 +54,13 @@ typedef enum
 typedef enum
 {
   ENCRYPTION_METHOD_SSLV23  = 0,
+#ifdef ENABLE_SSLV3
   ENCRYPTION_METHOD_SSLV3   = 1,
+#endif
   ENCRYPTION_METHOD_TLSV1   = 2,
   ENCRYPTION_METHOD_TLSV1_1 = 3,
   ENCRYPTION_METHOD_TLSV1_2 = 4
 } encryption_method_type;
-
 
 typedef struct _ZProxySsl {
   ZPolicyDict *ssl_dict;

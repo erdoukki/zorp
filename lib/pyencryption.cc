@@ -1,25 +1,5 @@
-/***************************************************************************
- *
- * Copyright (c) 2000-2015 BalaBit IT Ltd, Budapest, Hungary
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- *
- ***************************************************************************/
-
 #include <zorp/pyencryption.h>
-#include <zorp/log.h>
+#include <zorpll/log.h>
 #include <zorp/pyx509.h>
 #include <zorp/pyx509chain.h>
 #include <zorp/proxyssl.h>
@@ -105,9 +85,11 @@ z_policy_encryption_set_methods_and_security(ZPolicyEncryption *self,
           case ENCRYPTION_METHOD_SSLV23:
             self->ssl_client_context = SSL_CTX_new(SSLv23_server_method());
             break;
+#if ENABLE_SSLV3
           case ENCRYPTION_METHOD_SSLV3:
             self->ssl_client_context = SSL_CTX_new(SSLv3_server_method());
             break;
+#endif
           case ENCRYPTION_METHOD_TLSV1:
             self->ssl_client_context = SSL_CTX_new(TLSv1_server_method());
             break;
@@ -144,9 +126,11 @@ z_policy_encryption_set_methods_and_security(ZPolicyEncryption *self,
           case ENCRYPTION_METHOD_SSLV23:
             self->ssl_server_context = SSL_CTX_new(SSLv23_client_method());
             break;
+#ifdef ENABLE_SSLV3
           case ENCRYPTION_METHOD_SSLV3:
             self->ssl_server_context = SSL_CTX_new(SSLv3_client_method());
             break;
+#endif
           case ENCRYPTION_METHOD_TLSV1:
             self->ssl_server_context = SSL_CTX_new(TLSv1_client_method());
             break;

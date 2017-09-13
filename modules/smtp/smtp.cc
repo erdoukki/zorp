@@ -1,6 +1,7 @@
 /***************************************************************************
  *
  * Copyright (c) 2000-2015 BalaBit IT Ltd, Budapest, Hungary
+ * Copyright (c) 2015-2017 BalaSys IT Ltd, Budapest, Hungary
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,13 +22,13 @@
 
 #include "smtp.h"
 
-#include <zorp/thread.h>
-#include <zorp/registry.h>
-#include <zorp/log.h>
+#include <zorpll/thread.h>
+#include <zorpll/registry.h>
+#include <zorpll/log.h>
 #include <zorp/policy.h>
 #include <zorp/proxycommon.h>
 #include <zorp/proxygroup.h>
-#include <zorp/streamssl.h>
+#include <zorpll/streamssl.h>
 
 #define SMTP_DEBUG   "smtp.debug"
 #define SMTP_REQUEST "smtp.request"

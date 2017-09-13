@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with autoreconf,python2 --parallel
+
+override_dh_strip:
+	dh_strip -plibzorp@PACKAGE_SUFFIX@@LIBZORP_LT_COMPAT_BRANCH@-dbg --dbg-package=libzorp@PACKAGE_SUFFIX@@LIBZORP_LT_COMPAT_BRANCH@-dbg
+	dh_strip -pzorp@PACKAGE_SUFFIX@ --dbg-package=zorp@PACKAGE_SUFFIX@-dbg
+	dh_strip -pzorp@PACKAGE_SUFFIX@-modules --dbg-package=zorp@PACKAGE_SUFFIX@-modules-dbg
